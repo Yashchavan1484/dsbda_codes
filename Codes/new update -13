@@ -1,0 +1,36 @@
+def scan_outliers(df,col):
+    Q1= df[col].quantile(0.25)
+    Q3= df[col].quantile(0.75)
+    IQR = Q3 - Q1
+
+    lower = Q1 - 1.5*IQR
+    upper = Q3 + 1.5*IQR
+
+    outliers = df[(df[col] < lower) | (df[col] > upper)]
+
+    if len(outliers) == 0:
+        return f"No outliers found in '{col}'"
+    else:
+        return f"Outliers found in {col} :- {outliers[col].values} "
+
+print(scan_outliers(iris, 'sepal_length'))
+print(scan_outliers(iris, 'sepal_width'))
+print(scan_outliers(iris, 'petal_width'))
+print(scan_outliers(iris, 'petal_length'))
+
+def remove_outliers(df,col):
+    Q1= df[col].quantile(0.25)
+    Q3= df[col].quantile(0.75)
+    IQR = Q3 - Q1
+
+    lower = Q1 - 1.5*IQR
+    upper = Q3 + 1.5*IQR
+
+    removed = df[(df[col] >= lower) | (df[col] <= upper)]
+    return removed
+    
+print(remove_outliers(iris, 'sepal_length'))
+print(remove_outliers(iris, 'sepal_width'))
+print(remove_outliers(iris, 'petal_width'))
+print(remove_outliers(iris, 'petal_length'))
+
